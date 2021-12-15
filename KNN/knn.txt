@@ -1,0 +1,66 @@
+in[1]
+#import libraray
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+in[2]
+#import dataset
+dataset = pd.read_csv('dataset.csv')
+
+in[3]
+#two separate column
+x = dataset.iloc[:, 1:5].values
+y = dataset.iloc[:, 5].values
+
+in[4]
+#make data frame
+x = pd.DataFrame(x)
+y = pd.DataFrame(y)
+
+in[5]
+#import lable encoder library
+from sklearn.preprocessing import LabelEncoder 
+labelencoder_X = LabelEncoder()
+#lable encode
+x.values[:, 0] = labelencoder_X.fit_transform(x.values[:, 0])
+x.values[:, 1] = labelencoder_X.fit_transform(x.values[:, 1])
+x.values[:, 2] = labelencoder_X.fit_transform(x.values[:, 2])
+x.values[:, 3] = labelencoder_X.fit_transform(x.values[:, 3])
+y.values[:, 0] = labelencoder_X.fit_transform(y.values[:, 0])
+
+in[6]
+#model split
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.25, random_state = 0)
+
+in[7]
+X_train=X_train.astype(float)
+y_train=y_train.astype(float)
+X_test=X_test.astype(float)
+y_test=y_test.astype(float)
+
+in[8]
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+in[9]
+from sklearn.neighbors import KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors = 19)
+classifier.fit(X_train, y_train.values.ravel())
+
+in[10]
+y_pred = classifier.predict(X_test)
+print(y_pred)
+
+in[11]
+from sklearn import metrics
+# Model Accuracy, how often is the classifier correct?
+print("Accuracy : {} %".format(metrics.accuracy_score(y_test, y_pred)*100))	
+
+in[12]
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)	

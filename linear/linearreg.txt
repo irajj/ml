@@ -1,0 +1,57 @@
+In[1]
+#import library 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
+In[2]
+#load dataset
+df = pd.read_csv('dataset.csv')
+
+In[3]
+plt.figure(figsize=(8,6))
+sns.boxplot(x=df['Interest Rate'], y=df['Median Home'], hue=df['Interest Rate'])
+
+In[4]
+sns.pairplot(data = df)
+
+In[5]
+sns.distplot(df['Interest Rate'])
+
+In[6]
+sns.distplot(df['Median Home'])
+
+In[7]
+x = df['Interest Rate'].values
+y = df['Median Home'].values
+x_data = np.array(x)
+y_data = np.array(y)
+x_data = x_data.reshape(-1,1)
+y_data = y_data.reshape(-1,1)
+
+In[8]
+#import library for model split
+from sklearn.model_selection import train_test_split
+
+In[9]
+#modal split
+X_train, X_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.33, random_state=42)
+
+In[10]
+lm = LinearRegression()
+
+In[11]
+print(lm.fit(X_train,y_train))
+
+In[12]
+#final output
+predict = lm.predict(X_test)
+print(predict)
+
+In[13]
+# Plot outputs
+plt.scatter(X_test, y_test,  color='blue')
+plt.plot(X_test, lm.predict(X_test), color='red', linewidth=3)
+plt.show()

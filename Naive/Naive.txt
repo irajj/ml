@@ -1,0 +1,61 @@
+In[1]
+#import library
+import pandas as pd 
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+
+In[2]
+#import dataset
+dataset = pd.read_csv('student_details.csv')
+    
+#separate two column
+X = dataset.iloc[:, 1:5].values
+Y = dataset.iloc[:, 5].values
+
+In[3]
+#make data frame
+X = pd.DataFrame(X)
+y = pd.DataFrame(Y)
+
+In[4]
+#import lable encoder library
+from sklearn.preprocessing import LabelEncoder 
+labelencoder_X = LabelEncoder()
+X.values[:, 0] = labelencoder_X.fit_transform(X.values[:, 0])
+X.values[:, 1] = labelencoder_X.fit_transform(X.values[:, 1])
+X.values[:, 2] = labelencoder_X.fit_transform(X.values[:, 2])
+X.values[:, 3] = labelencoder_X.fit_transform(X.values[:, 3])
+y.values[:, 0] = labelencoder_X.fit_transform(y.values[:, 0])
+
+In[5]
+#model split
+p_train,p_test,t_train,t_test=train_test_split(X, y,test_size=0.3,random_state=123)
+
+In[6]
+p_train=p_train.astype(int)
+p_test=p_test.astype(int)
+t_train=t_train.astype(int)
+t_test=t_test.astype(int)
+
+In[7]
+model=GaussianNB()
+
+In[8]
+model=model.fit(p_train,t_train.values.ravel())
+
+In[9]
+predict=model.predict(p_test)
+
+In[10]
+pred=model.predict([[0,0,0,1]])
+
+In[11]
+print("Leptop Buy : !!!")
+if(pred==0):
+    print("No")
+else:
+    print("Yes")
+
+print(confusion_matrix(t_test,predict))
+print(classification_report(t_test,predict))

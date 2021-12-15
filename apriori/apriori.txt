@@ -1,0 +1,44 @@
+In[1]
+from apyori import apriori
+
+transactions = [
+    ['Bread', 'butter', 'milk', 'soda'],
+    ['Coke', 'egg', 'milk'],
+    ['Bread', 'butter', 'egg'],
+    ['Break', 'coke', 'jam'],
+    ['Bread', 'butter'],
+    ['Potato chips', 'soda'],
+    ['Coke', 'fruit', 'juice'],
+    ['Bread', 'coke', 'milk'],
+    ['Coke', 'soda', 'jam', 'milk'],
+    ['Bread', 'butter', 'egg', 'milk','soda'],
+    ['Bread', 'milk'],
+    ['Bread', 'jam']
+]
+results = list(apriori(transactions))
+
+In[2]
+association_rules = apriori(transactions, min_support=0.093, min_confidence=1.0, min_lift=2, min_length=2)  
+association_results = list(association_rules)
+
+In[3]
+print("Association Results : {}".format(len(association_results))) 
+
+print("First association results : \n{}".format(association_results[0]))
+
+In[4]
+for item in association_results:
+    # first index of the inner list
+    # Contains base item and add item
+    pair = item[0] 
+    items = [x for x in pair]
+    print("Rule: " + items[0] + " -> " + items[1])
+
+    #second index of the inner list
+    print("Support: " + str(item[1]))
+
+    #third index of the list located at 0th
+    #of the third index of the inner list
+    print("Confidence: " + str(item[2][0][2]))
+    print("Lift: " + str(item[2][0][3]))
+    print("=====================================")

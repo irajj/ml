@@ -1,0 +1,80 @@
+In[1]
+import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn_extra.cluster import KMedoids 
+import matplotlib.pyplot as plt
+
+In[2]
+data = pd.read_csv("k_means.csv")
+data.values
+
+In[3]
+plt.scatter(data.values[:,1],data.values[:,2],c="white",marker='o',edgecolors="black",s=50)
+plt.grid()
+plt.show()
+
+In[4]
+km = KMeans(n_clusters=3
+           ,init='random'
+           ,random_state=0)
+
+In[5]
+y_km = km.fit_predict(data)
+print(km.labels_)
+y_km	
+
+In[6]
+plt.scatter(data.values[y_km ==0 ,0]
+           ,data.values[y_km==0,0]
+           ,c="red"
+           ,marker="s"
+           ,edgecolors="black"
+           ,label="cluster 1")
+
+plt.scatter(data.values[y_km == 1 , 1]
+           ,data.values[y_km == 1 , 1]
+           ,c="blue"
+           ,marker="o"
+           ,edgecolors="black"
+           ,label="cluster 2")
+plt.scatter(data.values[y_km == 2 , 2]
+           ,data.values[y_km == 2 , 2]
+           ,c="green"
+           ,marker="*"
+           ,edgecolors="black"
+           ,label="cluster 3")
+plt.legend(scatterpoints=1)
+plt.grid()
+plt.show
+
+In[7]
+kmd = KMedoids(metric="euclidean",n_clusters=3,max_iter=100,init='random',random_state=0)
+
+In[8]
+kmd.fit_predict(data)
+
+In[9]
+plt.scatter(data.values[y_km ==0 ,0]
+           ,data.values[y_km==0,0]
+           ,c="red"
+           ,marker="s"
+           ,edgecolors="black"
+           ,label="cluster 1")
+
+plt.scatter(data.values[y_km == 1 , 1]
+           ,data.values[y_km == 1 , 1]
+           ,c="blue"
+           ,marker="o"
+           ,edgecolors="black"
+           ,label="cluster 2")
+
+plt.scatter(data.values[y_km == 2 , 2]
+           ,data.values[y_km == 2 , 2]
+           ,c="green"
+           ,marker="*"
+           ,edgecolors="black"
+           ,label="cluster 3")
+plt.legend(scatterpoints=1)
+plt.grid()
+plt.show

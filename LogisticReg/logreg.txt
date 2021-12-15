@@ -1,0 +1,59 @@
+In[1]
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+In[2]
+dataset = pd.read_csv('Logistic Regression Dataset.csv')
+
+In[3]
+#separate two column 
+x = dataset.iloc[:, [0, 1]].values
+y = dataset.iloc[:, 2].values
+
+In[4]
+# Admission Status (0 for Not Admitted and 1 for Admitted
+admissiones = [0, 1]
+
+# Dataset parameters that we will take into account.
+x_axis = 'Examination 1 Score'
+y_axis = 'Examination 2 Score'
+
+# Scatter the data on the plot for each validity class separatelly.
+for admission in admissiones:
+    plt.scatter(
+        dataset[x_axis][dataset['Status'] == admission],
+        dataset[y_axis][dataset['Status'] == admission],
+        label=admission
+    )
+
+# Plot the data.    
+plt.xlabel(x_axis)
+plt.ylabel(y_axis)
+plt.title('Student Admission')
+plt.legend()
+plt.show()
+
+In[5]
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.25, random_state = 0)
+
+In[6]
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression(solver='liblinear')
+classifier.fit(X_train, y_train)
+
+In[7]
+y_pred = classifier.predict(X_test)
+print(y_pred)
+
+In[8]
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
+In[9]
+from sklearn.metrics import classification_report
+
+print('classification reprot is == >\n')
+print(classification_report(y_test,y_pred))
